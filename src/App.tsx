@@ -175,7 +175,7 @@ const App: React.FC = () => {
             alt="bear with hearts"
             src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif"
           />
-          <div>Ms. Rubab Raza you go out with me?</div>
+          <div>Ms. Rubab Raza will you go out with me?</div>
           <div>
             <button
               className="yesButton"
