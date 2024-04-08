@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -57,21 +56,8 @@ const App: React.FC = () => {
     setShowCalendarPage(true);
   };
 
-  const handleSubmit = async (): Promise<void> => {
-    try {
-      // Make an HTTP POST request to the serverless function with form data
-      const response = await axios.post("/.netlify/functions/submitFormData", {
-        selectedDate,
-        food,
-      });
-
-      console.log("Form submission response:", response.data);
-
-      // Show the Kanye image after form submission
-      setShowKanyeImage(true);
-    } catch (error) {
-      console.error("Form submission error:", error);
-    }
+  const handleSubmit = (): void => {
+    setShowKanyeImage(true);
   };
 
   const handlePlayGameClick = (): void => {
@@ -125,7 +111,7 @@ const App: React.FC = () => {
             <button onClick={handleGameChoice}>Yankee No Brim</button>
           </>
         );
-
+     
       default:
         return (
           <p>
