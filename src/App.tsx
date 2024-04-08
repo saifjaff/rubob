@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import Axios for making HTTP requests
+import axios from "axios";
 import "./App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
