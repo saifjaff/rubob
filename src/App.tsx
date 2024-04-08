@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -36,13 +36,7 @@ const App: React.FC = () => {
   const [gameStage, setGameStage] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [food, setFood] = useState<string>("");
-  const [responses, setResponses] = useState<string[]>([]); // Store responses
-
   const yesButtonSize: number = noCount * 20 + 16;
-
-  useEffect(() => {
-    fetchResponses();
-  }, []);
 
   const handleNoClick = (): void => {
     setNoCount(noCount + 1);
@@ -52,7 +46,7 @@ const App: React.FC = () => {
     return phrases[Math.min(noCount, phrases.length - 1)];
   };
 
-  const handleYesClick = async (): Promise<void> => {
+  const handleYesClick = (): void => {
     setYesPressed(true);
     setShowThankYouPage(true);
   };
@@ -62,25 +56,8 @@ const App: React.FC = () => {
     setShowCalendarPage(true);
   };
 
-  const handleSubmit = async (): Promise<void> => {
-    const response = `SEE YOU ON ${selectedDate.toDateString()} FOR ${food}`;
-    try {
-      const res = await fetch("/.netlify/functions/responses", {
-        method: "POST",
-        body: JSON.stringify({ response }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to store response");
-      }
-      
-      // Add the response to the local state
-      setResponses([...responses, response]);
-      setShowKanyeImage(true);
-    } catch (error) {
-      console.error("Error storing response:", error);
-      // Optionally, handle error
-    }
+  const handleSubmit = (): void => {
+    setShowKanyeImage(true);
   };
 
   const handlePlayGameClick = (): void => {
@@ -134,29 +111,13 @@ const App: React.FC = () => {
             <button onClick={handleGameChoice}>Yankee No Brim</button>
           </>
         );
-
+     
       default:
         return (
           <p>
             SEE YOU ON {selectedDate.toDateString()} FOR {food}
           </p>
         );
-    }
-  };
-
-  const fetchResponses = async (): Promise<void> => {
-    try {
-      const res = await fetch("/.netlify/functions/responses");
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch responses");
-      }
-
-      const data = await res.json();
-      setResponses(data);
-    } catch (error) {
-      console.error("Error fetching responses:", error);
-      // Optionally, handle error
     }
   };
 
@@ -229,16 +190,6 @@ const App: React.FC = () => {
           </div>
         </>
       )}
-
-      {/* Display stored responses */}
-      <div>
-        <h2>Stored Responses:</h2>
-        <ul>
-          {responses.map((response, index) => (
-            <li key={index}>{response}</li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
